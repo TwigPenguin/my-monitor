@@ -1,14 +1,14 @@
+import os
 import psutil
 import time
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 
-# ========== 替换为你的邮箱信息 ==========
-MAIL_USER = "2124978873@qq.com"
-MAIL_PASS = "nowbxibpggzijgjj"
-TO_MAIL = "2124978873@qq.com"
-# ===================================
+# 从环境变量读取，如果读取不到就用空字符串
+MAIL_USER = os.environ.get("MAIL_USER", "2124978873@qq.com")
+MAIL_PASS = os.environ.get("MAIL_PASS", "")  # <--- 把密码删掉，改为从环境变量读取
+TO_MAIL = os.environ.get("TO_MAIL", "2124978873@qq.com")
 
 def send_email(content):
     """发送QQ邮件告警"""
