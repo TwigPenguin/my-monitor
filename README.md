@@ -1,22 +1,25 @@
-# Python 内存/CPU 监控告警脚本
+# AI 服务监控与可视化平台
 
 ## 📌 项目简介
-这是一个基于 Python 的轻量级系统监控脚本。用于解决运维中无法实时监控服务器资源（如内存、CPU）的痛点，实现自动发现异常并发送告警。
-
-## ⚙️ 核心功能
-- 数据采集：使用 `psutil` 库，每 10 秒采集一次系统资源（内存/CPU）使用率。
-- 阈值判断：当资源使用率超过 80% 时，触发告警机制。
-- 告警触达：通过 SMTP 协议，自动发送邮件到指定邮箱。
+这是一个基于 Python 的轻量级服务监控系统。通过 FastAPI 提供服务接口，结合 Docker 容器化部署，最终实现 Prometheus 数据采集与 Grafana 可视化大屏。
 
 ## 🛠️ 技术栈
-- 语言：Python 3
-- 核心库：`psutil`, `smtplib`, `email`, `time`
+- 开发语言：Python 3
+- Web框架：FastAPI, Uvicorn
+- 监控组件：Prometheus, Grafana
+- 部署工具：Docker, Docker Compose
 
-## 🚀 如何使用
-1. 克隆本项目到本地
-2. 安装依赖：`pip install psutil`
-3. 在代码中配置你的发件邮箱和授权码
-4. 运行脚本：`python monitor.py`
+## ⚙️ 核心功能
+1. **数据采集接口**：基于 `psutil` 实时获取系统 CPU 与内存指标，并通过 FastAPI 暴露 `/system_info` 接口。
+2. **标准监控指标**：集成 `prometheus-fastapi-instrumentator`，自动暴露标准 `/metrics` 接口，统计 API 请求次数与响应延迟。
+3. **容器编排与网络**：编写 `docker-compose.yml`，一键启动 Web 服务、Prometheus 与 Grafana，实现容器间内网互通。
+4. **可视化监控**：配置 Grafana 接入 Prometheus，通过 PromQL 语句（如 `rate(http_requests_total[1m])`）绘制 QPS 曲线，实现服务状态的实时监控。
 
-## 💡 项目收获
-通过这个项目，我完整实践了“数据采集 -> 逻辑判断 -> 外部告警”的运维监控闭环，熟悉了 Python 函数封装和 SMTP 邮件发送流程。
+## 🚀 运行指南
+1. 克隆本仓库
+2. 在项目根目录运行：`docker compose up -d --build`
+3. 访问 FastAPI 接口：`http://127.0.0.1:8000/docs`
+4. 访问 Grafana 大屏：`http://127.0.0.1:3000` (账号/密码: admin)
+
+![Grafana Dashboard](这里是你的截图链接)
+<img width="2852" height="1652" alt="image" src="https://github.com/user-attachments/assets/04fae2a9-15ae-4bf5-a5f0-f47fcfc9fed6" />
