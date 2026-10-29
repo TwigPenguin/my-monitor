@@ -3,8 +3,10 @@ from fastapi import FastAPI
 import uvicorn
 
 app=FastAPI()
+from prometheus_fastapi_instrumentator import Instrumentator
+Instrumentator().instrument(app).expose(app)
 
-@app.get("/metrics")
+@app.get("/system_info")
 def get_system_metrics():
     cpu=psutil.cpu_percent(interval=0.5)
     mem=psutil.virtual_memory().percent
